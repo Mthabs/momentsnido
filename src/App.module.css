@@ -32,7 +32,7 @@
   }
   
   a {
-    color: #555555;
+    color: purple;
     transition: color ease-in-out 0.3s;
   }
   
@@ -41,7 +41,7 @@
   }
   
   a:hover i {
-    color: #2142b2;
+    color: purple;
     transition: color ease-in-out 0.3s;
   }
   
@@ -59,7 +59,7 @@
   i:hover {
     cursor: pointer;
     transition: color ease-in-out 0.3s;
-    color: #2142b2;
+    color: purple;
   }
   
   figure {
@@ -75,8 +75,8 @@
     background: #f1f1f1;
   }
   *::-webkit-scrollbar-thumb {
-    background: #888;
+    background: purple;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: purple;
   }

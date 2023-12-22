@@ -12,13 +12,13 @@
   }
   
   .Heart {
-    color: #f85032;
+    color: purple;
   }
   
   .Heart:hover {
-    color: #2142b2;
+    color: purple;
   }
   
   .HeartOutline:hover {
-    color: #f85032;
+    color: purple;
   }
