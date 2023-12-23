@@ -46,7 +46,7 @@ function VideoPage() {
         <Video {...video.results[0]} setVideos={setVideo} videoPage />
         <Container className={appStyles.Content}>
           {currentUser ? (
-            <VideocommentCreateForm
+            <VideocommentUploadForm
               profile_id={currentUser.profile_id}
               profileImage={profile_image}
               video={id}

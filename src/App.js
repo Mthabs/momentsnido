@@ -8,6 +8,12 @@ import SignInForm from "./pages/auth/SignInForm";
 import PostCreateForm from "./pages/posts/PostCreateForm";
 import PostPage from "./pages/posts/PostPage";
 import PostsPage from "./pages/posts/PostsPage";
+import PhotoUploadForm from "./pages/photos/PhotoUploadForm";
+import PhotoPage from "./pages/photos/PhotoPage";
+import PhotosPage from "./pages/photos/PhotosPage"; 
+import VideosPage from "./pages/videos/VideosPage";
+import VideoUploadForm from "./pages/videos/VideoUploadForm";
+import VideoPage from "./pages/videos/VideoPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 import PostEditForm from "./pages/posts/PostEditForm";
 import PhotoEditForm from "./pages/photos/PhotoEditForm";
@@ -16,12 +22,8 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
-import PhotoUploadForm from "./pages/photos/PhotoUploadForm";
-import PhotoPage from "./pages/photos/PhotoPage";
-import PhotosPage from "./pages/photos/PhotosPage"; 
-import VideoUploadForm from "./pages/videos/VideoUploadForm"; 
-import VideoPage from "./pages/videos/VideoPage";
-import VideosPage from "./pages/videos/VideosPage";
+
+
 
 function App() {
   const currentUser = useCurrentUser();

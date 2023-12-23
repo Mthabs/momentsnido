@@ -17,8 +17,8 @@ const Video = (props) => {
     likes_count,
     like_id,
     title,
-    content,
-    video_url,
+    description,
+    video_file,
     updated_at,
     videoPage,
     setVideos,
@@ -93,13 +93,11 @@ const Video = (props) => {
         </Media>
       </Card.Body>
       <Link to={`/videos/${id}`}>
-        {/* Assuming you have a video player component or library */}
-        {/* Replace the following line with the appropriate video player */}
-        <Card.Video src={video_url} title={title} />
+        <Card.Img src={video_file} alt={title} />
       </Link>
       <Card.Body>
         {title && <Card.Title className="text-center">{title}</Card.Title>}
-        {content && <Card.Text>{content}</Card.Text>}
+        {description && <Card.Text>{description}</Card.Text>}
         <div className={styles.VideoBar}>
           {is_owner ? (
             <OverlayTrigger
