@@ -48,7 +48,7 @@ const Photo = (props) => {
         ...prevPhotos,
         results: prevPhotos.results.map((photo) => {
           return photo.id === id
-            ? { ...photo, likes_count: photo.likes_count + 1, like_id: data.id }
+            ? { ...photo, like_count: photo.like_count + 1, likephoto_id: data.id }
             : photo;
         }),
       }));
@@ -59,12 +59,12 @@ const Photo = (props) => {
 
   const handleUnlike = async () => {
     try {
-      await axiosRes.delete(`/likephotos/${like_id}/`);
+      await axiosRes.delete(`/likephotos/${likephoto_id}/`);
       setPhotos((prevPhotos) => ({
         ...prevPhotos,
         results: prevPhotos.results.map((photo) => {
           return photo.id === id
-            ? { ...photo, likes_count: photo.likes_count - 1, like_id: null }
+            ? { ...photo, like_count: photo.like_count - 1, likephoto_id: null }
             : photo;
         }),
       }));
