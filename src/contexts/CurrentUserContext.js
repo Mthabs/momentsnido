@@ -22,24 +22,8 @@ export const CurrentUserProvider = ({ children }) => {
     }
   };
 
-  const fetchPhotoAndVideoData = async () => {
-    try {
-      const photoResponse = await axiosRes.get("/photos/");
-      const videoResponse = await axiosRes.get("/videos/");
-
-      setCurrentUser((prevCurrentUser) => ({
-        ...prevCurrentUser,
-        photos: photoResponse.data,
-        videos: videoResponse.data,
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     handleMount();
-    fetchPhotoAndVideoData(); // Fetch additional photo and video data
   }, []);
 
   useMemo(() => {

@@ -14,8 +14,12 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
-import PhotoUploadForm from "./pages/photos/PhotoUploadForm"; 
+import PhotoUploadForm from "./pages/photos/PhotoUploadForm";
+import PhotoPage from "./pages/photos/PhotoPage";
+import PhotosPage from "./pages/photos/PhotosPage"; 
 import VideoUploadForm from "./pages/videos/VideoUploadForm"; 
+import VideoPage from "./pages/videos/VideoPage";
+import VideosPage from "./pages/videos/VideosPage";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -53,6 +57,60 @@ function App() {
               />
             )}
           />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <PhotosPage message="No results found. Adjust the search keyword." />
+            )}
+          />
+          <Route
+            exact
+            path="/feed"
+            render={() => (
+              <PhotosPage
+                message="No results found. Adjust the search keyword or follow a user."
+                filter={`owner__followed__owner__profile=${profile_id}&`}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/liked"
+            render={() => (
+              <PhotosPage
+                message="No results found. Adjust the search keyword or like a post."
+                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <VideosPage message="No results found. Adjust the search keyword." />
+            )}
+          />
+          <Route
+            exact
+            path="/feed"
+            render={() => (
+              <VideosPage
+                message="No results found. Adjust the search keyword or follow a user."
+                filter={`owner__followed__owner__profile=${profile_id}&`}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/liked"
+            render={() => (
+              <VideosPage
+                message="No results found. Adjust the search keyword or like a post."
+                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
+              />
+            )}
+          />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/posts/create" render={() => <PostCreateForm />} />
@@ -60,7 +118,11 @@ function App() {
           <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
           <Route exact path="/profiles/:id" render={() => <ProfilePage />} />
           <Route exact path="/photos/create" render={() => <PhotoUploadForm />} />
+          <Route exact path="/photos/:id" render={() => <PhotoPage />} />
+          <Route exact path="/photos/:id/edit" render={() => <PhotoEditForm />} />
           <Route exact path="/videos/create" render={() => <VideoUploadForm />} />
+          <Route exact path="/videos/:id" render={() => <VideoPage />} />
+          <Route exact path="/videos/:id/edit" render={() => <VideoEditForm />} />
           <Route
             exact
             path="/profiles/:id/edit/username"
