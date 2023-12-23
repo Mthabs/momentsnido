@@ -20,10 +20,10 @@ function VideoEditForm() {
 
   const [videoData, setVideoData] = useState({
     title: "",
-    content: "",
+    description: "",
     video: "",
   });
-  const { title, content, video } = videoData;
+  const { title, description, video } = videoData;
 
   const videoInput = useRef(null);
   const history = useHistory();
@@ -33,9 +33,9 @@ function VideoEditForm() {
     const handleMount = async () => {
       try {
         const { data } = await axiosReq.get(`/videos/${id}/`);
-        const { title, content, video, is_owner } = data;
+        const { title, description, video, is_owner } = data;
 
-        is_owner ? setVideoData({ title, content, video }) : history.push("/");
+        is_owner ? setVideoData({ title, description, video }) : history.push("/");
       } catch (err) {
         console.log(err);
       }
@@ -66,7 +66,7 @@ function VideoEditForm() {
     const formData = new FormData();
 
     formData.append("title", title);
-    formData.append("content", content);
+    formData.append("description", description);
 
     if (videoInput?.current?.files[0]) {
       formData.append("video", videoInput.current.files[0]);
@@ -101,16 +101,16 @@ function VideoEditForm() {
       ))}
 
       <Form.Group>
-        <Form.Label>Content</Form.Label>
+        <Form.Label>description</Form.Label>
         <Form.Control
           as="textarea"
           rows={6}
-          name="content"
-          value={content}
+          name="description"
+          value={description}
           onChange={handleChange}
         />
       </Form.Group>
-      {errors?.content?.map((message, idx) => (
+      {errors?.description?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
@@ -133,7 +133,7 @@ function VideoEditForm() {
       <Row>
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
-            className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
+            className={`${appStyles.description} ${styles.Container} d-flex flex-column justify-description-center`}
           >
             <Form.Group className="text-center">
               {video ? (
@@ -172,7 +172,7 @@ function VideoEditForm() {
           </Container>
         </Col>
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
-          <Container className={appStyles.Content}>{textFields}</Container>
+          <Container className={appStyles.description}>{textFields}</Container>
         </Col>
       </Row>
     </Form>

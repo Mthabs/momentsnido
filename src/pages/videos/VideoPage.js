@@ -44,7 +44,7 @@ function VideoPage() {
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <PopularProfiles mobile />
         <Video {...video.results[0]} setVideos={setVideo} videoPage />
-        <Container className={appStyles.Content}>
+        <Container className={appStyles.Description}>
           {currentUser ? (
             <VideocommentUploadForm
               profile_id={currentUser.profile_id}

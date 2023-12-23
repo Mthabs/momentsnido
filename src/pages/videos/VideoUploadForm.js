@@ -25,10 +25,10 @@ function VideoUploadForm() {
 
   const [videoData, setVideoData] = useState({
     title: "",
-    content: "",
-    video: "",
+    description: "",
+    video_file: "",
   });
-  const { title, content, video } = videoData;
+  const { title, description, video_file } = videoData;
 
   const videoInput = useRef(null);
   const history = useHistory();
@@ -42,7 +42,7 @@ function VideoUploadForm() {
 
   const handleChangeVideo = (event) => {
     if (event.target.files.length) {
-      URL.revokeObjectURL(video);
+      URL.revokeObjectURL(video_file);
       setVideoData({
         ...videoData,
         video: URL.createObjectURL(event.target.files[0]),
@@ -55,8 +55,8 @@ function VideoUploadForm() {
     const formData = new FormData();
 
     formData.append("title", title);
-    formData.append("content", content);
-    formData.append("video", videoInput.current.files[0]);
+    formData.append("description", description);
+    formData.append("video_file", videoInput.current.files[0]);
 
     try {
       const { data } = await axiosReq.post("/videos/", formData);
@@ -87,16 +87,16 @@ function VideoUploadForm() {
       ))}
 
       <Form.Group>
-        <Form.Label>Content</Form.Label>
+        <Form.Label>description</Form.Label>
         <Form.Control
           as="textarea"
           rows={6}
-          name="content"
-          value={content}
+          name="description"
+          value={description}
           onChange={handleChange}
         />
       </Form.Group>
-      {errors?.content?.map((message, idx) => (
+      {errors?.description?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
@@ -119,15 +119,15 @@ function VideoUploadForm() {
       <Row>
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
-            className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
+            className={`${appStyles.description} ${styles.Container} d-flex flex-column justify-description-center`}
           >
             <Form.Group className="text-center">
-              {video ? (
+              {video_file ? (
                 <>
                   <video
                     className={appStyles.Video}
                     controls
-                    src={video}
+                    src={video_file}
                     type="video/*"
                   />
                   <div>
@@ -141,7 +141,7 @@ function VideoUploadForm() {
                 </>
               ) : (
                 <Form.Label
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-description-center"
                   htmlFor="video-upload"
                 >
                   <Asset
@@ -168,7 +168,7 @@ function VideoUploadForm() {
           </Container>
         </Col>
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
-          <Container className={appStyles.Content}>{textFields}</Container>
+          <Container className={appStyles.description}>{textFields}</Container>
         </Col>
       </Row>
     </Form>

@@ -13,9 +13,9 @@ const Video = (props) => {
     owner,
     profile_id,
     profile_image,
-    comments_count,
-    likes_count,
-    like_id,
+    comment_count,
+    like_count,
+    likevideo_id,
     title,
     description,
     video_file,
@@ -48,7 +48,7 @@ const Video = (props) => {
         ...prevVideos,
         results: prevVideos.results.map((video) => {
           return video.id === id
-            ? { ...video, likes_count: video.likes_count + 1, like_id: data.id }
+            ? { ...video, like_count: video.like_count + 1, likevideo_id: data.id }
             : video;
         }),
       }));
@@ -59,12 +59,12 @@ const Video = (props) => {
 
   const handleUnlike = async () => {
     try {
-      await axiosRes.delete(`/likevideos/${like_id}/`);
+      await axiosRes.delete(`/likevideos/${likevideo_id}/`);
       setVideos((prevVideos) => ({
         ...prevVideos,
         results: prevVideos.results.map((video) => {
           return video.id === id
-            ? { ...video, likes_count: video.likes_count - 1, like_id: null }
+            ? { ...video, like_count: video.like_count - 1, likevideo_id: null }
             : video;
         }),
       }));
@@ -106,7 +106,7 @@ const Video = (props) => {
             >
               <i className="far fa-heart" />
             </OverlayTrigger>
-          ) : like_id ? (
+          ) : likevideo_id ? (
             <span onClick={handleUnlike}>
               <i className={`fas fa-heart ${styles.Heart}`} />
             </span>
@@ -122,11 +122,11 @@ const Video = (props) => {
               <i className="far fa-heart" />
             </OverlayTrigger>
           )}
-          {likes_count}
+          {like_count}
           <Link to={`/videos/${id}`}>
             <i className="far fa-comments" />
           </Link>
-          {comments_count}
+          {comment_count}
         </div>
       </Card.Body>
     </Card>
