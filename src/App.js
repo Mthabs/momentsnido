@@ -61,100 +61,16 @@ function App() {
               />
             )}
           />
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <PhotosPage message="No results found. Adjust the search keyword." />
-            )}
-          />
-          <Route
-            exact
-            path="/feed"
-            render={() => (
-              <PhotosPage
-                message="No results found. Adjust the search keyword or follow a user."
-                filter={`owner__followed__owner__profile=${profile_id}&`}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/liked"
-            render={() => (
-              <PhotosPage
-                message="No results found. Adjust the search keyword or like a post."
-                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/create"
-            render={() => <PhotoUploadForm />}
-          />
-          <Route
-            exact
-            path="/photos/:id"
-            render={() => <PhotoPage />}
-          />
-          <Route
-            exact
-            path="/photos/:id/edit"
-            render={() => <PhotoEditForm />}
-          />
-          <Route
-            exact
-            path="/videos"
-            render={() => (
-              <VideosPage message="No results found. Adjust the search keyword." />
-            )}
-          />
-          <Route
-            exact
-            path="/videos/feed"
-            render={() => (
-              <VideosPage
-                message="No results found. Adjust the search keyword or follow a user."
-                filter={`owner__followed__owner__profile=${profile_id}&`}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/videos/liked"
-            render={() => (
-              <VideosPage
-                message="No results found. Adjust the search keyword or like a post."
-                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/videos/create"
-            render={() => <VideoUploadForm />}
-          />
-          <Route
-            exact
-            path="/videos/:id"
-            render={() => <VideoPage />}
-          />
-          <Route
-            exact
-            path="/videos/:id/edit"
-            render={() => <VideoEditForm />}
-          />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/posts/create" render={() => <PostCreateForm />} />
           <Route exact path="/posts/:id" render={() => <PostPage />} />
           <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
           <Route exact path="/profiles/:id" render={() => <ProfilePage />} />
-          <Route exact path="/photos/create" render={() => <PhotoUploadForm />} />
+          <Route exact path="/photos/upload" render={() => <PhotoUploadForm />} />
           <Route exact path="/photos/:id" render={() => <PhotoPage />} />
           <Route exact path="/photos/:id/edit" render={() => <PhotoEditForm />} />
-          <Route exact path="/videos/create" render={() => <VideoUploadForm />} />
+          <Route exact path="/videos/upload" render={() => <VideoUploadForm />} />
           <Route exact path="/videos/:id" render={() => <VideoPage />} />
           <Route exact path="/videos/:id/edit" render={() => <VideoEditForm />} />
           <Route
