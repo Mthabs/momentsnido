@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Photo from "./Photo"; 
 import Photocomment from "../photocomments/Photocomment";
-import PhotocommentCreateForm from "../photocomments/PhotocommentCreateForm";
+import PhotocommentCreateForm from "../photocomments/PhotocommentUploadForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
@@ -72,9 +72,9 @@ function PhotoPage() {
               next={() => fetchMoreData(photocomments, setPhotocomments)}
             />
           ) : currentUser ? (
-            <span>No photocomments yet, be the first to photocomment!</span>
+            <span>No comments yet, be the first to comment!</span>
           ) : (
-            <span>No photocomments... yet</span>
+            <span>No comments... yet</span>
           )}
         </Container>
       </Col>

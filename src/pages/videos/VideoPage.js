@@ -6,8 +6,8 @@ import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Video from "./Video";  
-import Comment from "../comments/Comment";
-import CommentCreateForm from "../comments/CommentCreateForm";
+import Videocomment from "../videocomments/Videocomment";
+import VideocommentUploadForm from "../videocomments/VideocommentUploadForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
@@ -20,17 +20,17 @@ function VideoPage() {
 
   const currentUser = useCurrentUser();
   const profile_image = currentUser?.profile_image;
-  const [comments, setComments] = useState({ results: [] });
+  const [videocomments, setVideocomments] = useState({ results: [] });
 
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const [{ data: video }, { data: comments }] = await Promise.all([
+        const [{ data: video }, { data: videocomments }] = await Promise.all([
           axiosReq.get(`/videos/${id}`),
           axiosReq.get(`/videocomments/?video=${id}`),
         ]);
         setVideo({ results: [video] });
-        setComments(comments);
+        setVideocomments(videocomments);
       } catch (err) {
         console.log(err);
       }
@@ -46,30 +46,30 @@ function VideoPage() {
         <Video {...video.results[0]} setVideos={setVideo} videoPage />
         <Container className={appStyles.Content}>
           {currentUser ? (
-            <CommentCreateForm
+            <VideocommentCreateForm
               profile_id={currentUser.profile_id}
               profileImage={profile_image}
               video={id}
               setVideo={setVideo}
-              setComments={setComments}
+              setVideocomments={setVideocomments}
             />
-          ) : comments.results.length ? (
-            "Comments"
+          ) : videocomments.results.length ? (
+            "Videocomments"
           ) : null}
-          {comments.results.length ? (
+          {videocomments.results.length ? (
             <InfiniteScroll
-              children={comments.results.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  {...comment}
+              children={videocomments.results.map((videocomment) => (
+                <Videocomment
+                  key={videocomment.id}
+                  {...videocomment}
                   setVideo={setVideo}
-                  setComments={setComments}
+                  setVideocomments={setVideocomments}
                 />
               ))}
-              dataLength={comments.results.length}
+              dataLength={videocomments.results.length}
               loader={<Asset spinner />}
-              hasMore={!!comments.next}
-              next={() => fetchMoreData(comments, setComments)}
+              hasMore={!!videocomments.next}
+              next={() => fetchMoreData(videocomments, setVideocomments)}
             />
           ) : currentUser ? (
             <span>No comments yet, be the first to comment!</span>
