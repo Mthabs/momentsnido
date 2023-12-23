@@ -8,21 +8,21 @@ import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
 const Photo = (props) => {
-  const {
-    id,
-    owner,
-    profile_id,
-    profile_image,
-    comments_count,
-    likes_count,
-    like_id,
-    title,
-    content,
-    image,
-    updated_at,
-    photoPage,
-    setPhotos,
-  } = props;
+    const {
+      id,
+      owner,
+      profile_id,
+      profile_image,
+      comment_count,  
+      like_count,    
+      likephoto_id,  
+      caption,
+      image,
+      created_at,
+      updated_at,
+      photoPage,
+      setPhotos,
+    } = props;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -93,40 +93,39 @@ const Photo = (props) => {
         </Media>
       </Card.Body>
       <Link to={`/photos/${id}`}>
-        <Card.Img src={image} alt={title} />
+        <Card.Img src={image} alt={caption} /> 
       </Link>
       <Card.Body>
-        {title && <Card.Title className="text-center">{title}</Card.Title>}
-        {content && <Card.Text>{content}</Card.Text>}
+        {caption && <Card.Title className="text-center">{caption}</Card.Title>}
         <div className={styles.PhotoBar}>
-          {is_owner ? (
+            {is_owner ? (
             <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>You can't like your own photo!</Tooltip>}
+                placement="top"
+                overlay={<Tooltip>You can't like your own photo!</Tooltip>}
             >
-              <i className="far fa-heart" />
+                <i className="far fa-heart" />
             </OverlayTrigger>
-          ) : like_id ? (
-            <span onClick={handleUnlike}>
-              <i className={`fas fa-heart ${styles.Heart}`} />
-            </span>
-          ) : currentUser ? (
-            <span onClick={handleLike}>
-              <i className={`far fa-heart ${styles.HeartOutline}`} />
-            </span>
-          ) : (
+            ) : likephoto_id ? (
+                <span onClick={handleUnlike}>
+                <i className={`fas fa-heart ${styles.Heart}`} />
+                </span>
+            ) : currentUser ? (
+                <span onClick={handleLike}>
+                <i className={`far fa-heart ${styles.HeartOutline}`} />
+                </span>
+            ) : (
             <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Log in to like photos!</Tooltip>}
+                placement="top"
+                overlay={<Tooltip>Log in to like photos!</Tooltip>}
             >
-              <i className="far fa-heart" />
+                <i className="far fa-heart" />
             </OverlayTrigger>
-          )}
-          {likes_count}
-          <Link to={`/photos/${id}`}>
-            <i className="far fa-comments" />
-          </Link>
-          {comments_count}
+            )}
+            {like_count}
+            <Link to={`/photos/${id}`}>
+                <i className="far fa-comments" />
+            </Link>
+            {comment_count} 
         </div>
       </Card.Body>
     </Card>

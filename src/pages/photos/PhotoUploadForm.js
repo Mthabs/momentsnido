@@ -17,11 +17,11 @@ import btnStyles from "../../styles/Button.module.css";
 function PhotoUploadForm() {
   const [errors, setErrors] = useState({});
   const [photoData, setPhotoData] = useState({
-    title: "",
+    caption: "",
     description: "",
     image: "",
   });
-  const { title, description, image } = photoData;
+  const { caption, description, image } = photoData;
   const imageInput = useRef(null);
   const history = useHistory();
 
@@ -45,7 +45,7 @@ function PhotoUploadForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("title", title);
+    formData.append("caption", caption);
     formData.append("description", description);
     formData.append("image", imageInput.current.files[0]);
 
@@ -63,15 +63,15 @@ function PhotoUploadForm() {
   const textFields = (
     <div className="text-center">
       <Form.Group>
-        <Form.Label>Title</Form.Label>
+        <Form.Label>caption</Form.Label>
         <Form.Control
           type="text"
-          name="title"
-          value={title}
+          name="caption"
+          value={caption}
           onChange={handleChange}
         />
       </Form.Group>
-      {errors?.title?.map((message, idx) => (
+      {errors?.caption?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>

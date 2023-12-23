@@ -13,87 +13,87 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
 function PhotoEditForm() {
-  const [errors, setErrors] = useState({});
-  const [photoData, setPhotoData] = useState({
-    title: "",
-    description: "",
-    image: "",
-  });
-  const { title, description, image } = photoData;
-  const imageInput = useRef(null);
-  const history = useHistory();
-  const { id } = useParams();
-
-  useEffect(() => {
-    const handleMount = async () => {
-      try {
-        const { data } = await axiosReq.get(`/photos/${id}/`);
-        const { title, description, image, is_owner } = data;
-
-        is_owner ? setPhotoData({ title, description, image }) : history.push("/");
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    handleMount();
-  }, [history, id]);
-
-  const handleChange = (event) => {
-    setPhotoData({
-      ...photoData,
-      [event.target.name]: event.target.value,
+    const [errors, setErrors] = useState({});
+    const [photoData, setPhotoData] = useState({
+      caption: "",  
+      description: "",
+      image: "",
     });
-  };
-
-  const handleChangeImage = (event) => {
-    if (event.target.files.length) {
-      URL.revokeObjectURL(image);
+    const { caption, description, image } = photoData;  
+    const imageInput = useRef(null);
+    const history = useHistory();
+    const { id } = useParams();
+  
+    useEffect(() => {
+      const handleMount = async () => {
+        try {
+          const { data } = await axiosReq.get(`/photos/${id}/`);
+          const { caption, description, image, is_owner } = data;
+  
+          is_owner ? setPhotoData({ caption, description, image }) : history.push("/");
+        } catch (err) {
+          console.log(err);
+        }
+      };
+  
+      handleMount();
+    }, [history, id]);
+  
+    const handleChange = (event) => {
       setPhotoData({
         ...photoData,
-        image: URL.createObjectURL(event.target.files[0]),
+        [event.target.name]: event.target.value,
       });
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("description", description);
-
-    if (imageInput?.current?.files[0]) {
-      formData.append("image", imageInput.current.files[0]);
-    }
-
-    try {
-      await axiosReq.put(`/photos/${id}/`, formData);
-      history.push(`/photos/${id}`);
-    } catch (err) {
-      console.log(err);
-      if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
+    };
+  
+    const handleChangeImage = (event) => {
+      if (event.target.files.length) {
+        URL.revokeObjectURL(image);
+        setPhotoData({
+          ...photoData,
+          image: URL.createObjectURL(event.target.files[0]),
+        });
       }
-    }
-  };
-
-  const textFields = (
-    <div className="text-center">
-      <Form.Group>
-        <Form.Label>Title</Form.Label>
-        <Form.Control
-          type="text"
-          name="title"
-          value={title}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      {errors?.title?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
-          {message}
-        </Alert>
-      ))}
+    };
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      const formData = new FormData();
+  
+      formData.append("caption", caption);  
+      formData.append("description", description);
+  
+      if (imageInput?.current?.files[0]) {
+        formData.append("image", imageInput.current.files[0]);
+      }
+  
+      try {
+        await axiosReq.put(`/photos/${id}/`, formData);
+        history.push(`/photos/${id}`);
+      } catch (err) {
+        console.log(err);
+        if (err.response?.status !== 401) {
+          setErrors(err.response?.data);
+        }
+      }
+    };
+  
+    const textFields = (
+      <div className="text-center">
+        <Form.Group>
+          <Form.Label>Caption</Form.Label>  
+          <Form.Control
+            type="text"
+            name="caption"
+            value={caption}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        {errors?.caption?.map((message, idx) => (  
+          <Alert variant="warning" key={idx}>
+            {message}
+          </Alert>
+        ))}
 
       <Form.Group>
         <Form.Label>Description</Form.Label>

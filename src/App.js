@@ -10,6 +10,8 @@ import PostPage from "./pages/posts/PostPage";
 import PostsPage from "./pages/posts/PostsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 import PostEditForm from "./pages/posts/PostEditForm";
+import PhotoEditForm from "./pages/photos/PhotoEditForm";
+import VideoEditForm from "./pages/videos/VideoEditForm";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
@@ -86,14 +88,29 @@ function App() {
           />
           <Route
             exact
-            path="/"
+            path="/create"
+            render={() => <PhotoUploadForm />}
+          />
+          <Route
+            exact
+            path="/photos/:id"
+            render={() => <PhotoPage />}
+          />
+          <Route
+            exact
+            path="/photos/:id/edit"
+            render={() => <PhotoEditForm />}
+          />
+          <Route
+            exact
+            path="/videos"
             render={() => (
               <VideosPage message="No results found. Adjust the search keyword." />
             )}
           />
           <Route
             exact
-            path="/feed"
+            path="/videos/feed"
             render={() => (
               <VideosPage
                 message="No results found. Adjust the search keyword or follow a user."
@@ -103,13 +120,28 @@ function App() {
           />
           <Route
             exact
-            path="/liked"
+            path="/videos/liked"
             render={() => (
               <VideosPage
                 message="No results found. Adjust the search keyword or like a post."
                 filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
               />
             )}
+          />
+          <Route
+            exact
+            path="/videos/create"
+            render={() => <VideoUploadForm />}
+          />
+          <Route
+            exact
+            path="/videos/:id"
+            render={() => <VideoPage />}
+          />
+          <Route
+            exact
+            path="/videos/:id/edit"
+            render={() => <VideoEditForm />}
           />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
