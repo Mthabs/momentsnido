@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../api/axiosDefaults';
+import axios from 'axios';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 const Followers = () => {
