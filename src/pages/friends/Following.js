@@ -1,37 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
-const Following = () => {
-  const currentUser = useCurrentUser();
-  const [followingList, setFollowingList] = useState([]);
+const Following = ({ currentUser }) => {
+  const [followingData, setFollowingData] = useState([]);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFollowingList = async () => {
+    const fetchFollowingData = async () => {
       try {
-        const response = await axios.get('/friends/', {
-          params: { 'owner__following__followed__friend': currentUser.id },
-        });
+        const response = await axios.get('/friends/');
+        const friendsData = response.data.results;
 
-        setFollowingList(response.data.results);
+        // Find the authenticated user's data
+        const authenticatedUserData = friendsData.find(
+          (friend) => friend.owner === currentUser.username
+        );
+
+        if (authenticatedUserData) {
+          setFollowingCount(authenticatedUserData.following_count);
+          setFollowingData(authenticatedUserData.following);
+        } else {
+          console.error('Authenticated user data not found in the API response.');
+          setError('Error fetching following data. Please try again later.');
+        }
       } catch (error) {
-        console.error('Error fetching following list:', error);
+        console.error('Error fetching following data:', error);
+        setError('Error fetching following data. Please try again later.');
       }
     };
 
-    if (currentUser) {
-      fetchFollowingList();
-    }
-  }, [currentUser]);
+    fetchFollowingData();
+  }, [currentUser.username]);
 
   return (
     <div>
       <h2>Following</h2>
-      <ul>
-        {followingList.map((friend) => (
-          <li key={friend.id}>{friend.friend_name}</li>
-        ))}
-      </ul>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {!error && (
+        <>
+          <p>Following Count: {followingCount}</p>
+
+          <ul>
+            {followingData.map((followed) => (
+              <li key={followed.id}>{followed.username}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

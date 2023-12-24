@@ -1,37 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
-const Followers = () => {
-  const currentUser = useCurrentUser();
-  const [followersList, setFollowersList] = useState([]);
+const Followers = ({ currentUser }) => {
+  const [followersData, setFollowersData] = useState([]);
+  const [followersCount, setFollowersCount] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFollowersList = async () => {
+    const fetchFollowersData = async () => {
       try {
-        const response = await axios.get('/friends/', {
-          params: { 'owner__followed__owner__friend': currentUser.id },
-        });
+        const response = await axios.get('/friends/');
+        const friendsData = response.data.results;
 
-        setFollowersList(response.data.results);
+        // Find the authenticated user's data
+        const authenticatedUserData = friendsData.find(
+          (friend) => friend.owner === currentUser.username
+        );
+
+        if (authenticatedUserData) {
+          setFollowersCount(authenticatedUserData.followers_count);
+          setFollowersData(authenticatedUserData.followers);
+        } else {
+          console.error('Authenticated user data not found in the API response.');
+          setError('Error fetching followers data. Please try again later.');
+        }
       } catch (error) {
-        console.error('Error fetching followers list:', error);
+        console.error('Error fetching followers data:', error);
+        setError('Error fetching followers data. Please try again later.');
       }
     };
 
-    if (currentUser) {
-      fetchFollowersList();
-    }
-  }, [currentUser]);
+    fetchFollowersData();
+  }, [currentUser.username]); 
 
   return (
     <div>
       <h2>Followers</h2>
-      <ul>
-        {followersList.map((friend) => (
-          <li key={friend.id}>{friend.friend_name}</li>
-        ))}
-      </ul>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {!error && (
+        <>
+          <p>Followers Count: {followersCount}</p>
+
+          <ul>
+            {followersData.map((follower) => (
+              <li key={follower.id}>{follower.username}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import FriendRequests from './FriendRequests';
 import FindFriends from './FindFriends';
 
 const Friends = () => {
-  const [activeKey, setActiveKey] = useState('Friends'); // Default active key
+  const [activeKey, setActiveKey] = useState('Followers'); // Default active key
 
   const handleSelect = (selectedKey) => {
     setActiveKey(selectedKey);
@@ -25,12 +25,12 @@ const Friends = () => {
         className="mb-3"
       >
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/followers" eventKey="followers">
+          <Nav.Link as={NavLink} to="/friends/followers" eventKey="Followers">
             Followers
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/following" eventKey="following">
+          <Nav.Link as={NavLink} to="/friends/following" eventKey="Following">
             Following
           </Nav.Link>
         </Nav.Item>
@@ -38,13 +38,13 @@ const Friends = () => {
           <Nav.Link
             as={NavLink}
             to="/friends/friend-requests"
-            eventKey="friendRequests"
+            eventKey="FriendRequests"
           >
             Friend Requests
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/find-friends" eventKey="findFriends">
+          <Nav.Link as={NavLink} to="/friends/find-friends" eventKey="FindFriends">
             Find Friends
           </Nav.Link>
         </Nav.Item>
@@ -56,7 +56,7 @@ const Friends = () => {
         <Route path="/friends/following" component={Following} />
         <Route path="/friends/friend-requests" component={FriendRequests} />
         <Route path="/friends/find-friends" component={FindFriends} />
-        <Redirect from="/friends" to="/friends/all" />
+        <Redirect from="/friends" to="/friends/followers" />
       </Switch>
     </Container>
   );

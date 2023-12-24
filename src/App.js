@@ -22,7 +22,7 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
-import Friends from "./pages/friends/Friends";
+import Friends from './pages/friends/Friends';
 
 function App() {
   const currentUser = useCurrentUser();
