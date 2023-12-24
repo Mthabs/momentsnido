@@ -72,7 +72,7 @@ function App() {
           <Route exact path="/videos/upload" render={() => <VideoUploadForm />} />
           <Route exact path="/videos/:id" render={() => <VideoPage />} />
           <Route exact path="/videos/:id/edit" render={() => <VideoEditForm />} />
-          <Route exact path="/friends" component={Friends} />
+          <Route path="/friends" render={() => <Friends />} />
           <Route
             exact
             path="/profiles/:id/edit/username"
