@@ -7,6 +7,7 @@ import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContex
 import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import Friends from '../pages/friends/Friends'; 
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
@@ -130,6 +131,13 @@ const NavBar = () => {
               to="/"
             >
               <i className="fas fa-home"></i>Home
+            </NavLink>
+            <NavLink
+              className={styles.NavLink}
+              activeClassName={styles.Active}
+              to="/friends"
+            >
+              <i className="fas fa-user-friends"></i>Friends
             </NavLink>
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
