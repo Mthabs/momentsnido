@@ -7,7 +7,7 @@ import FriendRequests from './FriendRequests';
 import FindFriends from './FindFriends';
 
 const Friends = () => {
-  const [activeKey, setActiveKey] = useState('Followers'); // Default active key
+  const [activeKey, setActiveKey] = useState('Friends'); // Default active key
 
   const handleSelect = (selectedKey) => {
     setActiveKey(selectedKey);
@@ -56,7 +56,7 @@ const Friends = () => {
         <Route path="/friends/following" component={Following} />
         <Route path="/friends/friend-requests" component={FriendRequests} />
         <Route path="/friends/find-friends" component={FindFriends} />
-        <Redirect from="/friends" to="/friends/followers" />
+        <Redirect from="/friends" to="/friends" />
       </Switch>
     </Container>
   );

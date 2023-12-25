@@ -3,7 +3,10 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
@@ -33,7 +36,6 @@ const NavBar = () => {
       <i className="far fa-plus-square"></i>Add post
     </NavLink>
   );
-
   const uploadPhotoIcon = (
     <NavLink
       className={styles.NavLink}
@@ -53,7 +55,6 @@ const NavBar = () => {
       <i className="far fa-file-video"></i>Upload video
     </NavLink>
   );
-
   const loggedInIcons = (
     <>
       <NavLink
@@ -86,7 +87,6 @@ const NavBar = () => {
       </NavLink>
     </>
   );
-
   const loggedOutIcons = (
     <>
       <NavLink
