@@ -1,5 +1,5 @@
 import React from 'react';
-import { useProfileData, useSetProfileData } from '../../contexts/ProfileDataContext';
+import { useProfileData } from '../../contexts/ProfileDataContext';
 
 const Following = () => {
   const { profile } = useProfileData();
