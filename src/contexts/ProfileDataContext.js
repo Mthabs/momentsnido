@@ -1,19 +1,19 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { followHelper, unfollowHelper } from "../utils/utils";
 
-export const ProfileDataContext = createContext();
-export const SetProfileDataContext = createContext();
+const ProfileDataContext = createContext();
+const SetProfileDataContext = createContext();
 
 export const useProfileData = () => useContext(ProfileDataContext);
 export const useSetProfileData = () => useContext(SetProfileDataContext);
 
 export const ProfileDataProvider = ({ children }) => {
   const [profileData, setProfileData] = useState({
+    // we will use the pageProfile later!
     pageProfile: { results: [] },
     popularProfiles: { results: [] },
-    followers_count: 0,
   });
 
   const currentUser = useCurrentUser();
@@ -24,8 +24,6 @@ export const ProfileDataProvider = ({ children }) => {
         followed: clickedProfile.id,
       });
 
-      console.log("Data from follow API:", data);
-
       setProfileData((prevState) => ({
         ...prevState,
         pageProfile: {
@@ -33,7 +31,6 @@ export const ProfileDataProvider = ({ children }) => {
             followHelper(profile, clickedProfile, data.id)
           ),
         },
-        followers_count: prevState.followers_count + 1,
         popularProfiles: {
           ...prevState.popularProfiles,
           results: prevState.popularProfiles.results.map((profile) =>
@@ -57,7 +54,6 @@ export const ProfileDataProvider = ({ children }) => {
             unfollowHelper(profile, clickedProfile)
           ),
         },
-        followers_count: prevState.followers_count - 1, // Update followers count
         popularProfiles: {
           ...prevState.popularProfiles,
           results: prevState.popularProfiles.results.map((profile) =>
@@ -73,7 +69,6 @@ export const ProfileDataProvider = ({ children }) => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        // Fetch popular profiles
         const { data } = await axiosReq.get(
           "/profiles/?ordering=-followers_count"
         );
