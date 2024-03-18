@@ -44,4 +44,8 @@
   .SignUpCol {
     height: 375px;
   }
+
+  .MinHeightRow {
+  min-height: 600px; 
+}
   
