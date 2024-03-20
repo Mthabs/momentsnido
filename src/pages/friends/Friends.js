@@ -1,20 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Nav } from 'react-bootstrap';
-import { NavLink, Route, Switch, Redirect } from 'react-router-dom';
-import Followers from './Followers';
-import Following from './Following';
-import FriendRequests from './FriendRequests';
-import FindFriends from './FindFriends';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { customaxios } from '../../api/axiosDefaults';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 const Friends = () => {
-  const [activeKey, setActiveKey] = useState('Friends'); // Default active key
+  const navigate = useHistory();
+  const [auth, setAuth] = useState(false);
+  const [data, setData] = useState([])
+  const [activeKey, setActiveKey] = useState("Followers")
+
+  useEffect(()=>{
+    let temp = JSON.parse(sessionStorage.getItem("loggedIn"));
+    setAuth(temp);
+    if(!temp){
+      navigate.push("/signin")
+      document.location.reload()
+    }
+    getFollowers();
+  }, [])
+
+  const getFollowers = async()=>{
+    try{
+      const response = await customaxios.get("friends/follower/")
+      if(response.status === 200){
+        setData(response.data)
+      }
+    }
+    catch(e){
+      if(e.code === "ERR_NETWORK"){
+        alert("You're not connected to Internet. Please Check your network Connection")
+      }
+      else{
+        alert(e);
+      }
+    }
+  }
+
+  const getFollowing = async()=>{
+    try{
+      const response = await customaxios.get("friends/following/")
+      if(response.status === 200){
+        console.log(response.data)
+        setData(response.data)
+      }
+    }
+    catch(e){
+      if(e.code === "ERR_NETWORK"){
+        alert("You're not connected to Internet. Please Check your network Connection")
+      }
+      else{
+        alert(e);
+      }
+    }
+  }
 
   const handleSelect = (selectedKey) => {
-    setActiveKey(selectedKey);
+    setActiveKey(selectedKey)
+    if(selectedKey === "Followers"){
+      getFollowers();
+    }
+    else if(selectedKey === "Following"){
+      getFollowing();
+    }
   };
 
   return (
-    <Container>
+    <>
+    {auth &&<Container>
       <h2>Friends</h2>
 
       {/* Navigation Links */}
@@ -25,40 +79,45 @@ const Friends = () => {
         className="mb-3"
       >
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/followers" eventKey="Followers">
+          <Nav.Link  eventKey="Followers">
             Followers
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/following" eventKey="Following">
+          <Nav.Link  eventKey="Following">
             Following
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link
-            as={NavLink}
-            to="/friends/friend-requests"
-            eventKey="FriendRequests"
-          >
+          <Nav.Link disabled>
             Friend Requests
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to="/friends/find-friends" eventKey="FindFriends">
+          <Nav.Link  disabled>
             Find Friends
           </Nav.Link>
         </Nav.Item>
       </Nav>
 
-      {/* Page Content */}
-      <Switch>
-        <Route path="/friends/followers" component={Followers} />
-        <Route path="/friends/following" component={Following} />
-        <Route path="/friends/friend-requests" component={FriendRequests} />
-        <Route path="/friends/find-friends" component={FindFriends} />
-        <Redirect from="/friends" to="/friends" />
-      </Switch>
-    </Container>
+      <ListGroup variant="flush">
+        { data.map((instance)=>{
+          const user = instance.user
+          return(
+            <ListGroup.Item>
+              <div className='d-flex'>
+                {!user.profile_picture && <img src='https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
+                {user.profile_picture && <img src='' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
+                <a href={'/profile/' + user.id} ><span className='mt-2'>{user.full_name}</span></a>
+              </div>
+            </ListGroup.Item>
+          )
+        })}
+    </ListGroup>
+    {data.length === 0 && <span>No {activeKey} of your Profile</span>}
+     
+    </Container>}
+    </>
   );
 };
 
