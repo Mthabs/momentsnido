@@ -24,7 +24,10 @@ function SignInForm() {
       const response = await customaxios.post('/auth/token/', values)
       if( response.status === 200 ){
         sessionStorage.setItem("authtoken", response.data.token)
-        return 1;
+        sessionStorage.setItem("user", JSON.stringify(response.data.user))
+        sessionStorage.setItem("loggedIn", true)
+        navigate.push("/")
+        document.location.reload()
       }
     }
     catch(e){
