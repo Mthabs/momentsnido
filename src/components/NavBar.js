@@ -1,90 +1,50 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import {
-  useCurrentUser,
-  useSetCurrentUser,
-} from "../contexts/CurrentUserContext";
 import Avatar from "./Avatar";
-import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
-import Friends from '../pages/friends/Friends'; 
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 
 const NavBar = () => {
-  const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser();
+
+  const navigate = useHistory();
+
+  const[auth, setAuth] = useState(false);
+  const[user, setUser] = useState(null);
+  useEffect(()=>{
+    setAuth(JSON.parse(sessionStorage.getItem("loggedIn")));
+    setUser(JSON.parse(sessionStorage.getItem("user")));
+  }, [])
 
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const handleSignOut = async () => {
-    try {
-      await axios.post("dj-rest-auth/logout/");
-      setCurrentUser(null);
-    } catch (err) {
-      console.log(err);
-    }
+   sessionStorage.clear();
+    navigate.push("/signin")
+    document.location.reload()
   };
 
-  const addPostIcon = (
-    <NavLink
-      className={styles.NavLink}
-      activeClassName={styles.Active}
-      to="/posts/create"
-    >
-      <i className="far fa-plus-square"></i>Add post
-    </NavLink>
-  );
-  const uploadPhotoIcon = (
-    <NavLink
-      className={styles.NavLink}
-      activeClassName={styles.Active}
-      to="/photos/upload"
-    >
-      <i className="far fa-images"></i>Upload photo
-    </NavLink>
-  );
-
-  const uploadVideoIcon = (
-    <NavLink
-      className={styles.NavLink}
-      activeClassName={styles.Active}
-      to="/videos/upload"
-    >
-      <i className="far fa-file-video"></i>Upload video
-    </NavLink>
-  );
+  const handleClick = (path) =>{
+    navigate.push(path)
+    document.location.reload();
+  }
+ 
   const loggedInIcons = (
     <>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/feed"
-      >
-        <i className="fas fa-stream"></i>Feed
-      </NavLink>
-      <NavLink className={styles.NavLink} to="/friends/requests">
-      <i className="fas fa-user-friends"></i>Friend Requests
-      </NavLink>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/liked"
-      >
-        <i className="fas fa-heart"></i>Liked
-      </NavLink>
-      {uploadPhotoIcon}
-      {uploadVideoIcon}
+   
       <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i>Sign out
       </NavLink>
-      <NavLink
+      {auth && <NavLink
         className={styles.NavLink}
-        to={`/profiles/${currentUser?.profile_id}`}
+        to={""}
+        onClick={()=>{handleClick(`/profile/${user.id}`)}}
       >
-        <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
-      </NavLink>
+        {user.profile_picture && <Avatar src={user.profile_picture} text="Profile" height={40} />}
+      </NavLink>}
     </>
   );
   const loggedOutIcons = (
@@ -119,7 +79,6 @@ const NavBar = () => {
             <img src={logo} alt="logo" height="45" />
           </Navbar.Brand>
         </NavLink>
-        {currentUser && addPostIcon}
         <Navbar.Toggle
           ref={ref}
           onClick={() => setExpanded(!expanded)}
@@ -127,22 +86,24 @@ const NavBar = () => {
         />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
-            <NavLink
+            {auth && <NavLink
               exact
               className={styles.NavLink}
               activeClassName={styles.Active}
-              to="/"
+              to=""
+              onClick={()=>{handleClick("/")}}
             >
               <i className="fas fa-home"></i>Home
-            </NavLink>
-            <NavLink
+            </NavLink>}
+            {auth &&<NavLink
               className={styles.NavLink}
               activeClassName={styles.Active}
-              to="/friends"
+              to=""
+              onClick={()=>{handleClick("/friends")}}
             >
               <i className="fas fa-user-friends"></i>Friends
-            </NavLink>
-            {currentUser ? loggedInIcons : loggedOutIcons}
+            </NavLink>}
+            {auth ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
       </Container>
