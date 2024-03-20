@@ -60,7 +60,7 @@ const NavBar = () => {
         to=""
         className={styles.NavLink}
         activeClassName={styles.Active}
-        onClick={handleClick("/signup")}
+        onClick={()=>{handleClick("/signup")}}
       >
         <i className="fas fa-user-plus"></i>Sign up
       </NavLink>
