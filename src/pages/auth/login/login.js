@@ -31,6 +31,7 @@ function SignInForm() {
       }
     }
     catch(e){
+      setLoading(false)
       if(e.code === "ERR_NETWORK"){
         alert("You're not connected to Internet. Please Check your network Connection")
       }
