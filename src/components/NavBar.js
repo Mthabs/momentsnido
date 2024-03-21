@@ -44,6 +44,7 @@ const NavBar = () => {
         onClick={()=>{handleClick(`/profile/${user.id}`)}}
       >
         {user.profile_picture && <Avatar src={user.profile_picture} text="Profile" height={40} />}
+        {!user.profile_picture && <Avatar src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/media/../default_profile_qdjgyp" text="Profile" height={40} />}
       </NavLink>}
     </>
   );
