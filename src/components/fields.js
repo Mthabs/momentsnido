@@ -40,9 +40,10 @@ export const renderTextField = ({
 };
 
 
-export const renderTextAreaField = ({ input,  meta, ...custom }) => {
+export const renderTextAreaField = ({ input, label,  meta, ...custom }) => {
   return (
-    <Form.Group>
+    <Form.Group className="mt-3">
+      <Form.Label style={{ fontWeight: 500, color: 'purple' }} >{label}</Form.Label>
       <Form.Control as="textarea" {...input} {...custom} />
       {meta.touched && meta.error && <Form.Text className="text-danger">{meta.error}</Form.Text>}
     </Form.Group>
@@ -51,16 +52,17 @@ export const renderTextAreaField = ({ input,  meta, ...custom }) => {
 
 
 export const renderFileField = ({ 
-  input, label, meta, image, ...custom }) => {
+  input, label, meta, image, accept, size=45, ...custom}) => {
   return(
     <Form.Group controlId={input.name} className="position-relative my-2">
-      <Form.Label><img src={image} alt="Upload" width="45" height="45" className="mr-2" />
+      <Form.Label><img src={image} alt="Upload" width={size} height={size} className="mr-2" />
     </Form.Label>
     <Form.Control
       type="file"
       name={input.name}
       onChange={(e) => input.onChange(e.target.files[0])}
       isInvalid={meta.touched && meta.error}
+      accept={accept}
     />
   </Form.Group>
 )};
