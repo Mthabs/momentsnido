@@ -21,8 +21,8 @@ import Profile from "./pages/profiles/BaseLayout"
 // import VideoEditForm from "./pages/videos/VideoEditForm";
 // import ProfilePage from "./pages/profiles/ProfilePage";
 // import UsernameForm from "./pages/profiles/UsernameForm";
-// import UserPasswordForm from "./pages/profiles/UserPasswordForm";
-// import ProfileEditForm from "./pages/profiles/ProfileEditForm";
+import UserPasswordForm from "./pages/profiles/UserPasswordForm";
+import ProfileEdit from "./pages/profiles/form/BaseLayout";
 import Friends from './pages/friends/Friends';
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
             exact
             path="/profiles/:id/edit/username"
             render={() => <UsernameForm />}
-          />
+          />*/}
           <Route
             exact
             path="/profiles/:id/edit/password"
@@ -87,8 +87,8 @@ function App() {
           <Route
             exact
             path="/profiles/:id/edit"
-            render={() => <ProfileEditForm />}
-          /> */}
+            render={() => <ProfileEdit />}
+          /> 
 
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
