@@ -1,22 +1,53 @@
-import { Carousel, Card } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import styles from "../../styles/Post.module.css";
 import { useEffect, useState } from "react";
 import { customaxios } from "../../api/axiosDefaults";
-import {Image} from "react-bootstrap";
-import appStyles from "../../App.module.css"; 
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Avatar from "../../components/Avatar";
+
 // import Card from 'react-bootstrap/Card';
 
 const Post = (props) => {
+    const navigate = useHistory()
     const {id, user, content, image, video, created_at } = props
     const [like, setLike] = useState(false)
 
-    const initialLike = () => {
+    useEffect(()=>{
+        initialLike()
+    },[id])
+
+    const initialLike = async() => {
         // Create Initial Like api and Integrate here: gets user like this post from api
+        try{
+            const response = await customaxios.get("/post/like/"+id+"/")
+            if(response.status === 200){
+                setLike(response.data.like);
+            }
+        }
+        catch(e){
+            console.log(e)
+        }
+        
     }
 
-    const handleLike = (value) => {
+    const handleLike = async (value) => {
         setLike(value)
-        // Create api to handle users like and total count
+        try{
+            if(value){
+                const response = await customaxios.post("/post/like/"+id+"/")
+            }
+            else{
+                const response = await customaxios.delete("/post/like/"+id+"/")
+            }
+        }
+        catch(e){
+            console.log(e)
+        }
+     }
+
+     const detailPostView = () =>{
+        navigate.push("/post/"+id)
+        document.location.reload()
      }
     return(
             <Card >
@@ -25,10 +56,9 @@ const Post = (props) => {
                         <div className="d-flex justify-content-between">
                             <a href={"/profile/"+user.id} >
                                 <span className="mx-2"> 
-                                    {user.profile_picture && <img src={user.profile_picture} alt="Profile Picture" height={55} width={55} />}
-                                    {!user.profile_picture && <img src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/media/../default_profile_qdjgyp" alt="Profile Picture" height={55} width={55} />}
+                                    {user.profile_picture && <Avatar src={user.profile_picture}  text={user.full_name} />}
+                                    {!user.profile_picture && <Avatar src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/media/../default_profile_qdjgyp" text={user.full_name} />}
                                 </span>
-                                {user.full_name}
                             </a>
                             <span ></span>
                         </div>
@@ -50,7 +80,7 @@ const Post = (props) => {
                     <div className="d-flex justify-content-start">
                         {like && <i className={`fas fa-heart ${styles.Heart}`} onClick={()=>{handleLike(false)}}/>}
                         {!like && <i className="far fa-heart" onClick={()=>{handleLike(true)}}/> }
-                        <i className="far fa-comments" />
+                        <i className="far fa-comments" onClick={()=>{detailPostView()}} />
                     </div>
                 </Card.Body>               
             </Card>

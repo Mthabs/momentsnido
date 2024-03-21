@@ -11,8 +11,8 @@ const FormField = () => {
         <>
         <Field name = "content" placeholder="What's on your mind?" component={renderTextAreaField} />
         <div className="d-flex">
-        <Field name="image" component={renderFileField} image="/upload2.jpg" label="Upload Image" />
-        <Field name="video" component={renderFileField} image="/upload.jpg" label="Upload Video" />
+        <Field name="image" component={renderFileField} image="/upload2.jpg" accept="image/*" label="Upload Image" />
+        <Field name="video" component={renderFileField} image="/upload.jpg" accept="video/*" label="Upload Video" />
         </div>
         </>
     )
