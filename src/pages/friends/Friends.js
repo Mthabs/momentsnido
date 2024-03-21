@@ -101,7 +101,7 @@ const Friends = () => {
       </Nav>
 
       <ListGroup variant="flush">
-        { data.map((instance)=>{
+        {data.length >0 && data.map((instance)=>{
           const user = instance.user
           return(
             <ListGroup.Item>
