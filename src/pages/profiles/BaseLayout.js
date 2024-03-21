@@ -1,10 +1,11 @@
-import {Image} from "react-bootstrap";
+import { ProfileEditDropdown } from "../../components/MoreDropdown";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { customaxios } from "../../api/axiosDefaults";
 import Button from 'react-bootstrap/Button';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Post from "../posts/Post";
+import Avatar from "../../components/Avatar";
 
 
 const Profile = () => {
@@ -121,32 +122,27 @@ const Profile = () => {
               alert(e);
             }
           }       
-
-
       }
 
     return (
         <>
         { profile && <div className="" style={{maxWidth: "900px"}}>
-            <div className="d-flex justify-content-end">
-                <i class="fas fa-ellipsis-v" aria-hidden="true" />
+            <div className="d-flex justify-content-start">
+             {!isDifferent && <ProfileEditDropdown id={id} />}
+                {/* <i class="fas fa-ellipsis-v" aria-hidden="true" /> */}
             </div>
             <div className="px-3 text-center row no-gutters">
                 <div className="col" >
                     <div>
                         { profile.profile_picture && 
-                        <Image
+                        <Avatar
                           src={profile.profile_picture}
-                          alt="Profile Picture"
                           height={120}
-                          width={120}
                           />}
                           { !profile.profile_picture && 
-                          <Image
-                            src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp"
-                            alt="Profile Picture"
+                          <Avatar
+                            src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp" 
                             height={120}
-                            width={120}
                           />}
                     </div>
                 </div>
@@ -173,6 +169,9 @@ const Profile = () => {
                 </div>
             </div>
             <hr />
+              <div className="d-flex justify-content-center">
+                {profile.status}
+              </div>
             <hr />
             {posts && posts.map((post)=>{
                 return(
