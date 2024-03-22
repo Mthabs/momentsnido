@@ -23,7 +23,7 @@ const ProfileEdit = () =>{
         const response = await customaxios.patch('profile/edit/'+id+"/", formdata)
         if (response.status === 206){
             alert("Profile Updated")
-            navigate.goBack()
+            navigate.push("/profile/"+id)
             window.location.reload()
         }
     }
