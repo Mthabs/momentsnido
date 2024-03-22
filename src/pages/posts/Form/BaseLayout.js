@@ -1,4 +1,5 @@
 import { Row, Col, Container } from "react-bootstrap";
+import { Card } from "react-bootstrap"
 import FormLayout from "./FormLayout";
 import { customaxios } from "../../../api/axiosDefaults";
 import { SubmissionError } from "redux-form";
@@ -60,6 +61,7 @@ const PostCreation = () => {
             const response = await customaxios.post('/post/', formdata);
             if( response.status === 201 ){
               alert("Successfully Posted")
+              window.location.reload()
               return 1;
             }
           }
@@ -90,6 +92,12 @@ const PostCreation = () => {
                         </Row>
                       )
                     })}
+                  <Card className="mt-4">
+                    <Card.Body className="d-flex justify-content-center">
+                      {!posts && (<span><strong>There are no posts to display</strong></span>)}
+                      {posts && (<span>You're all caught up</span>)}
+                    </Card.Body>
+                  </Card>
                 </Container>
             </Col>}
         </Row>
