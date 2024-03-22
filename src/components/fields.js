@@ -58,6 +58,7 @@ export const renderFileField = ({
       <Form.Label><img src={image} alt="Upload" width={size} height={size} className="mr-2" /> 
     </Form.Label>
     {input.value.name && <div><span>{input.value.name.substr(0,6)}...</span></div>}
+    {!input.value.name &&  input.value !== "" && <div><span>{input.value.substr(0,6)+"..." }</span></div>}
     <Form.Control
       type="file"
       name={input.name}
