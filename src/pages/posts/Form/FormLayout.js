@@ -1,10 +1,12 @@
-import { reduxForm, Form } from "redux-form"
+import { reduxForm, Form, change } from "redux-form"
 import { Field } from "redux-form";
 import { renderTextAreaField, renderFileField } from "../../../components/fields";
 import { Button } from "react-bootstrap";
 import validate from "./validate";
+import { useDispatch } from "react-redux";
 
 import btnStyles from "../../../styles/Button.module.css";
+import { useEffect } from "react";
 
 const FormField = () => {
     return(
@@ -19,7 +21,15 @@ const FormField = () => {
 }
 
 const FormLayout = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
+    const { handleSubmit, pristine, submitting, data } = props;
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        if(data){
+            Object.keys(data).map((key)=>{
+                dispatch(change("userpost", key, data[key]))
+            })
+        }
+    },[data])
     return(
         <Form onSubmit={handleSubmit}>
             <FormField />
@@ -28,7 +38,8 @@ const FormLayout = (props) => {
             type="Submit"
             disabled={pristine || submitting}
             >
-            Post
+            {!data && "Post"}
+            {data && "Save"}
             </Button>  
         </Form>
     )
