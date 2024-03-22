@@ -54,13 +54,16 @@ export const renderTextAreaField = ({ input, label,  meta, ...custom }) => {
 export const renderFileField = ({ 
   input, label, meta, image, accept, size=45, ...custom}) => {
   return(
-    <Form.Group controlId={input.name} className="position-relative my-2">
-      <Form.Label><img src={image} alt="Upload" width={size} height={size} className="mr-2" />
+    <Form.Group controlId={input.name} className="position-relative my-2 mx-1">
+      <Form.Label><img src={image} alt="Upload" width={size} height={size} className="mr-2" /> 
     </Form.Label>
+    {input.value.name && <div><span>{input.value.name.substr(0,6)}...</span></div>}
     <Form.Control
       type="file"
       name={input.name}
-      onChange={(e) => input.onChange(e.target.files[0])}
+      onChange={(e) => {
+        input.onChange(e.target.files[0])
+        }}
       isInvalid={meta.touched && meta.error}
       accept={accept}
     />
