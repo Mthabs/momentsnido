@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { customaxios } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Avatar from "../../components/Avatar";
+import { MoreDropdown } from "../../components/MoreDropdown";
 
 // import Card from 'react-bootstrap/Card';
 
@@ -11,8 +12,14 @@ const Post = (props) => {
     const navigate = useHistory()
     const {id, user, content, image, video, created_at } = props
     const [like, setLike] = useState(false)
+    const [editForm, setEditForm] = useState(false);
+    const [options, setOptions] = useState(false);
+    const currentUser = JSON.parse(sessionStorage.getItem("user"))
 
     useEffect(()=>{
+        if(currentUser.id === user.id){
+            setOptions(true);
+        }
         initialLike()
     },[id])
 
@@ -34,14 +41,23 @@ const Post = (props) => {
         setLike(value)
         try{
             if(value){
-                const response = await customaxios.post("/post/like/"+id+"/")
+                 await customaxios.post("/post/like/"+id+"/")
             }
             else{
-                const response = await customaxios.delete("/post/like/"+id+"/")
+                 await customaxios.delete("/post/like/"+id+"/")
             }
         }
         catch(e){
             console.log(e)
+        }
+     }
+
+     const handleDelete = async () =>{
+        const response = await customaxios.delete("/post/"+id+"/")
+        if(response.status === 204){
+            alert("Post deleted successfully !!")
+            navigate.push("/")
+            window.location.reload()
         }
      }
 
@@ -60,10 +76,14 @@ const Post = (props) => {
                                     {!user.profile_picture && <Avatar src="https://res.cloudinary.com/dnt7oro5y/image/upload/v1/media/../default_profile_qdjgyp" text={user.full_name} />}
                                 </span>
                             </a>
-                            <span ></span>
                         </div>
                         <div className="d-flex justify-content-center">
-                            <span className="mt-3">{created_at}</span>
+                            { options&& !editForm && (
+                                <MoreDropdown
+                                    handleEdit={() => setEditForm(true)}
+                                    handleDelete={handleDelete}
+                                />
+                                )}
                         </div>
 
                     </div>
@@ -76,12 +96,13 @@ const Post = (props) => {
                          </video>                       
                     </Card.Body>}
                 <Card.Body>
-                {content}
                     <div className="d-flex justify-content-start">
                         {like && <i className={`fas fa-heart ${styles.Heart}`} onClick={()=>{handleLike(false)}}/>}
                         {!like && <i className="far fa-heart" onClick={()=>{handleLike(true)}}/> }
                         <i className="far fa-comments" onClick={()=>{detailPostView()}} />
                     </div>
+                    <div><span><strong style={{color:"purple"}}>{user.full_name}: {' '}</strong>{content}</span></div>
+                    <span className="mt-3"><small>{created_at}</small></span>
                 </Card.Body>               
             </Card>
 
