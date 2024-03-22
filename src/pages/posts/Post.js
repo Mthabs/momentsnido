@@ -5,6 +5,7 @@ import { customaxios } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Avatar from "../../components/Avatar";
 import { MoreDropdown } from "../../components/MoreDropdown";
+import FormLayout from "./Form/FormLayout";
 
 // import Card from 'react-bootstrap/Card';
 
@@ -65,6 +66,22 @@ const Post = (props) => {
         navigate.push("/post/"+id)
         document.location.reload()
      }
+
+     const handleUpdate = async(values)=>{
+        const formData = new FormData ();
+        formData.append('content', values.content)
+        if(typeof(values.image) === 'object' &&  values.image !== null){
+            formData.append('image', values.image)
+        }
+        if(typeof(values.video) === 'object' &&  values.video != null){
+            formData.append('video', values.video)
+        }
+        const response = await customaxios.patch("/post/"+id+"/", formData)
+        if (response.status === 206){
+            alert("Successfully Updated")
+            window.location.reload()
+        }
+     }
     return(
             <Card >
                 <Card.Body>
@@ -88,13 +105,15 @@ const Post = (props) => {
 
                     </div>
                 </Card.Body>
-                {image && <Card.Img src={image} alt="Image Post"/>}
-                   {!image && video &&<Card.Body>
+                {!editForm && image && <Card.Img src={image} alt="Image Post"/>}
+                   {!editForm && !image && video &&<Card.Body>
                         <video className="d-block w-100" controls>
                             <source src={video} type="video/mp4" />
                             Your browser does not support the video tag.
                          </video>                       
                     </Card.Body>}
+                    {editForm && <FormLayout onSubmit={handleUpdate} data={props} />}
+                    
                 <Card.Body>
                     <div className="d-flex justify-content-start">
                         {like && <i className={`fas fa-heart ${styles.Heart}`} onClick={()=>{handleLike(false)}}/>}
