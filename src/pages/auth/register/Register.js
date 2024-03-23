@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { SubmissionError } from "redux-form";
@@ -16,7 +13,6 @@ import {
   Container,
 } from "react-bootstrap";
 import { customaxios } from "../../../api/axiosDefaults";
-import { useRedirect } from "../../../hooks/useRedirect";
 
 const SignUpForm = (props) => {
   const navigate = useHistory();
@@ -73,6 +69,7 @@ const SignUpForm = (props) => {
         setMessage("Profile Created.")
         alert("Your account is created, Please Login")
         navigate.push("/signin")
+        window.location.reload()
       }
     }
     catch(e){
@@ -88,12 +85,17 @@ const SignUpForm = (props) => {
     }
   }
 
+  const handleClick = (url) => {
+    navigate.push(url)
+    document.location.reload()
+}
+
   return (
     <Row className={styles.Row}>
-      <Col className="my-auto py-2 p-md-2" md={6}>
+      <Col className="py-2 p-md-2" md={6}>
 
       <Container className={`mt-3 ${appStyles.Content}`}>
-          <Link className={styles.Link} to="/signin">
+          <Link className={styles.Link} to="" onClick={()=>{handleClick("/signin")}}>
             Already have an account? <span>Sign in</span>
           </Link>
         </Container>
@@ -112,7 +114,7 @@ const SignUpForm = (props) => {
       </Col>
       <Col
         md={5}
-        className={`my-auto d-none d-md-block p-2  mx-4 ${styles.SignUpCol}`}
+        className={`my-auto  p-2  mx-4 `}
       >
         <Image
           className={`${appStyles.FillerImage}`}
