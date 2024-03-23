@@ -43,6 +43,11 @@ function SignInForm() {
       }
     }
   };
+
+  const handleClick = (url) => {
+      navigate.push(url)
+      document.location.reload()
+  }
   return (
     <Row className={styles.Row}>
       <Col className="my-auto p-0 p-md-2" md={6}>
@@ -58,7 +63,7 @@ function SignInForm() {
           }
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
-          <Link className={styles.Link} to="/signup">
+          <Link className={styles.Link} to="" onClick={()=>{handleClick("/signup")}}>
             Don't have an account? <span>Sign up now!</span>
           </Link>
         </Container>
