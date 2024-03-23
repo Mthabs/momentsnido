@@ -13,7 +13,7 @@ import btnStyles from "../../../styles/Button.module.css";
         <Form onSubmit={handleSubmit}>
             <SignUpField />
             <Button
-              className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
+              className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright} mt-3`}
               block={true}
               type="submit"
               disabled={pristine || submitting}
