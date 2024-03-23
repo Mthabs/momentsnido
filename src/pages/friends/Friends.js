@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import FindFriends from './FindFriends';
 import FriendRequests from './FriendRequests'
 import styles from "../../styles/Avatar.module.css";
+import UserList from './userList';
 
 
 const Friends = () => {
+
   const navigate = useHistory();
+
   const [auth, setAuth] = useState(false);
   const [data, setData] = useState([])
   const [activeKey, setActiveKey] = useState("Followers")
@@ -103,21 +106,8 @@ const Friends = () => {
         </Nav.Item>
       </Nav>
 
-      <ListGroup variant="flush">
-        { data.map((instance)=>{
-          const user = instance.user
-          return(
-            <ListGroup.Item>
-              <div className='d-flex'>
-                {!user.profile_picture && <img src='https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp' alt="Profile Picture" className={styles.Avatar} style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
-                {user.profile_picture && <img src='' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }} className={styles.Avatar}  /> }
-                <a href={'/profile/' + user.id} ><span className='mt-2'>{user.full_name}</span></a>
-              </div>
-            </ListGroup.Item>
-          )
-        })}
-    </ListGroup>
-    {(activeKey=== "follower" || activeKey === "following") && data.length === 0 && <span>No {activeKey} of your Profile</span>}
+    {activeKey === "Followers" && <UserList data={data} underFlowMessage="No followers of your Profile" />}
+    {activeKey === "Following" && <UserList data={data} underFlowMessage="No following of your Profile" />}
      {activeKey === "friendrequest" && <FriendRequests />}
      {activeKey === "findfriends" && <FindFriends />}
     </Container>}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
-import styles from "../../styles/Avatar.module.css";
 import axios from 'axios';
+import UserList from './userList';
 
 
 const FindFriends = () => {
@@ -28,27 +27,16 @@ const FindFriends = () => {
 
 
   return (
-    <div>
+    <div className='my-2'>
       <h2>Find Friends</h2>
       <input
         type="text"
         placeholder="Search for friends"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        className='mb-2'
       />
-       <ListGroup variant="flush">
-        { data.map((user)=>{
-          return(
-            <ListGroup.Item>
-              <div className='d-flex'>
-                {!user.profile_picture && <img src='https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp'  className={styles.Avatar}  alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
-                {user.profile_picture && <img src={user.profile_picture} alt="Profile Picture" className={styles.Avatar} style={{ width: '50px', height: '50px', marginRight: '10px' }} /> }
-                <a href={'/profile/' + user.id} ><span className='mt-2'>{user.full_name}</span></a>
-              </div>
-            </ListGroup.Item>
-          )
-        })}
-    </ListGroup>
+       <UserList data={data} underFlowMessage={"No Match to that Query"} />
     </div>
   );
 };
