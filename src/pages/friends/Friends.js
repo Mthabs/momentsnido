@@ -3,6 +3,9 @@ import { Container, Nav } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { customaxios } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import FindFriends from './FindFriends';
+import FriendRequests from './FriendRequests'
+import styles from "../../styles/Avatar.module.css";
 
 
 const Friends = () => {
@@ -94,28 +97,29 @@ const Friends = () => {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link  disabled>
+          <Nav.Link eventKey="findfriends" >
             Find Friends
           </Nav.Link>
         </Nav.Item>
       </Nav>
 
       <ListGroup variant="flush">
-        {data.length >0 && data.map((instance)=>{
+        { data.map((instance)=>{
           const user = instance.user
           return(
             <ListGroup.Item>
               <div className='d-flex'>
-                {!user.profile_picture && <img src='https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
-                {user.profile_picture && <img src='' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
+                {!user.profile_picture && <img src='https://res.cloudinary.com/dnt7oro5y/image/upload/v1/default_profile_qdjgyp' alt="Profile Picture" className={styles.Avatar} style={{ width: '50px', height: '50px', marginRight: '10px' }}  /> }
+                {user.profile_picture && <img src='' alt="Profile Picture" style={{ width: '50px', height: '50px', marginRight: '10px' }} className={styles.Avatar}  /> }
                 <a href={'/profile/' + user.id} ><span className='mt-2'>{user.full_name}</span></a>
               </div>
             </ListGroup.Item>
           )
         })}
     </ListGroup>
-    {data.length === 0 && <span>No {activeKey} of your Profile</span>}
-     
+    {(activeKey=== "follower" || activeKey === "following") && data.length === 0 && <span>No {activeKey} of your Profile</span>}
+     {activeKey === "friendrequest" && <FriendRequests />}
+     {activeKey === "findfriends" && <FindFriends />}
     </Container>}
     </>
   );
