@@ -35,7 +35,7 @@ const NavBar = () => {
   const loggedInIcons = (
     <>
    
-      <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
+      <NavLink className={styles.NavLink} to="" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i>Sign out
       </NavLink>
       {auth && <NavLink
@@ -77,7 +77,9 @@ const NavBar = () => {
       fixed="top"
     >
       <Container>
-        <NavLink to="/">
+        <NavLink to="" 
+        onClick={()=>{handleClick("/")}}
+        >
           <Navbar.Brand>
             <img src={logo} alt="logo" height="45" />
           </Navbar.Brand>
