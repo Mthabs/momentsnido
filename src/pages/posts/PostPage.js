@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import Comment from '../comments/Comment';
 import { customaxios } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import btnStyles from "../../styles/Button.module.css";
-import { Button } from "react-bootstrap";
 import { Row, Col } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
+import HandlePostComments from '../comments/BaseLayout';
 import Post from "./Post"
+
 
 
 const PostDetail = () =>{
@@ -53,30 +51,8 @@ const PostDetail = () =>{
             </Col>
             <Col md={2}></Col>
         </Row>
-        <Row className='mt-5'>
-            <Col md={2}></Col>
-            <Col>
-            <Form.Control
-                as="textarea"
-                placeholder="Leave a comment here"
-                style={{ height: '100px' }}
-                />
-                <Button
-            type="Submit"
-            disabled={false}
-            >
-            Post
-            </Button> 
-            </Col>
-            <Col md={2}></Col>
-        </Row>
-        <Row>
-            <Col md={2}></Col>
-            <Col>
-            {data && <Comment {...data} />}
-            </Col>
-            <Col md={2}></Col>
-        </Row>
+        
+       <HandlePostComments id={id} />
         </>
     )
 }
