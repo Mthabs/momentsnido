@@ -8,19 +8,7 @@ import SignInForm from "./pages/auth/login/login";
 import PostCreation from "./pages/posts/Form/BaseLayout"
 import PostPage from "./pages/posts/PostPage";
 import Profile from "./pages/profiles/BaseLayout"
-// import PostsPage from "./pages/posts/PostsPage";
-// import PhotoUploadForm from "./pages/photos/PhotoUploadForm";
-// import PhotoPage from "./pages/photos/PhotoPage";
-// import PhotosPage from "./pages/photos/PhotosPage"; 
-// import VideosPage from "./pages/videos/VideosPage";
-// import VideoUploadForm from "./pages/videos/VideoUploadForm";
-// import VideoPage from "./pages/videos/VideoPage";
-// import { useCurrentUser } from "./contexts/CurrentUserContext";
-// import PostEditForm from "./pages/posts/PostEditForm";
-// import PhotoEditForm from "./pages/photos/PhotoEditForm";
-// import VideoEditForm from "./pages/videos/VideoEditForm";
-// import ProfilePage from "./pages/profiles/ProfilePage";
-// import UsernameForm from "./pages/profiles/UsernameForm";
+
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEdit from "./pages/profiles/form/BaseLayout";
 import Friends from './pages/friends/Friends';
@@ -31,54 +19,12 @@ function App() {
       <NavBar />
       <Container className={styles.Main}>
         <Switch>
-          {/* <Route
-            exact
-            path="/"
-            render={() => (
-              <PostsPage message="No results found. Adjust the search keyword." />
-            )}
-          /> */}
-          {/* <Route
-            exact
-            path="/feed"
-            render={() => (
-              <PostsPage
-                message="No results found. Adjust the search keyword or follow a user."
-                filter={`owner__followed__owner__profile=${profile_id}&`}
-              />
-            )}
-          /> */}
-          {/* <Route
-            exact
-            path="/liked"
-            render={() => (
-              <PostsPage
-                message="No results found. Adjust the search keyword or like a post."
-                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
-              />
-            )}
-          /> */}
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/profile/:id" render={() => <Profile />} />
            <Route exact path="/" render={() => <PostCreation />} />
            <Route exact path="/post/:id" render={() => <PostPage />} />
            <Route path="/friends" render={() => <Friends />} />
-          {/*
-          <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
-          
-          <Route exact path="/photos/upload" render={() => <PhotoUploadForm />} />
-          <Route exact path="/photos/:id" render={() => <PhotoPage />} />
-          <Route exact path="/photos/:id/edit" render={() => <PhotoEditForm />} />
-          <Route exact path="/videos/upload" render={() => <VideoUploadForm />} />
-          <Route exact path="/videos/:id" render={() => <VideoPage />} />
-          <Route exact path="/videos/:id/edit" render={() => <VideoEditForm />} />
-           */}
-          {/* <Route
-            exact
-            path="/profiles/:id/edit/username"
-            render={() => <UsernameForm />}
-          />*/}
           <Route
             exact
             path="/profiles/:id/edit/password"
