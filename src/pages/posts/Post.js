@@ -11,7 +11,7 @@ import FormLayout from "./Form/FormLayout";
 
 const Post = (props) => {
     const navigate = useHistory()
-    const {id, user, content, image, video, created_at } = props
+    const {id, user, content, image, video, created_at, likes_count, comments_count } = props
     const [like, setLike] = useState(false)
     const [editForm, setEditForm] = useState(false);
     const [options, setOptions] = useState(false);
@@ -43,9 +43,11 @@ const Post = (props) => {
         try{
             if(value){
                  await customaxios.post("/post/like/"+id+"/")
+                 document.location.reload()
             }
             else{
                  await customaxios.delete("/post/like/"+id+"/")
+                 document.location.reload()
             }
         }
         catch(e){
@@ -118,7 +120,9 @@ const Post = (props) => {
                     <div className="d-flex justify-content-start">
                         {like && <i className={`fas fa-heart ${styles.Heart}`} onClick={()=>{handleLike(false)}}/>}
                         {!like && <i className="far fa-heart" onClick={()=>{handleLike(true)}}/> }
+                       <span className="pt-2">{likes_count}</span>
                         <i className="far fa-comments" onClick={()=>{detailPostView()}} />
+                        <span className="pt-2">{comments_count}</span>
                     </div>
                     <div><span><strong style={{color:"purple"}}>{user.full_name}: {' '}</strong>{content}</span></div>
                     <span className="mt-3"><small>{created_at}</small></span>
